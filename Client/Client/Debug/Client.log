@@ -1,0 +1,5 @@
+﻿  Back_Logo.cpp
+d:\download\universery\directx12\client\client\back_logo.cpp(37): error C2679: 이항 '=': 오른쪽 피연산자로 'void' 형식을 사용하는 연산자가 없거나 허용되는 변환이 없습니다.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\directxmath.h(886): note: 'DirectX::XMFLOAT4X4 &DirectX::XMFLOAT4X4::operator =(DirectX::XMFLOAT4X4 &&)'일 수 있습니다.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\directxmath.h(883): note: 또는       'DirectX::XMFLOAT4X4 &DirectX::XMFLOAT4X4::operator =(const DirectX::XMFLOAT4X4 &)'
+  d:\download\universery\directx12\client\client\back_logo.cpp(37): note: 인수 목록 '(_matrix, void)'을(를) 일치시키는 동안

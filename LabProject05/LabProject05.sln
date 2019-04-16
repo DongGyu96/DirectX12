@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.168
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabProject05", "LabProject05\LabProject05.vcxproj", "{8472064F-02DE-4991-AB20-169644B52E5F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{73AB53AF-AE0E-4701-8A3D-73C06CCCDBE5}"
+	ProjectSection(SolutionItems) = preProject
+		Shaders.hlsl = Shaders.hlsl
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8472064F-02DE-4991-AB20-169644B52E5F}.Debug|x64.ActiveCfg = Debug|x64
+		{8472064F-02DE-4991-AB20-169644B52E5F}.Debug|x64.Build.0 = Debug|x64
+		{8472064F-02DE-4991-AB20-169644B52E5F}.Debug|x86.ActiveCfg = Debug|Win32
+		{8472064F-02DE-4991-AB20-169644B52E5F}.Debug|x86.Build.0 = Debug|Win32
+		{8472064F-02DE-4991-AB20-169644B52E5F}.Release|x64.ActiveCfg = Release|x64
+		{8472064F-02DE-4991-AB20-169644B52E5F}.Release|x64.Build.0 = Release|x64
+		{8472064F-02DE-4991-AB20-169644B52E5F}.Release|x86.ActiveCfg = Release|Win32
+		{8472064F-02DE-4991-AB20-169644B52E5F}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {39742E9D-932A-4CA2-976E-128972FDFA0C}
+	EndGlobalSection
+EndGlobal
