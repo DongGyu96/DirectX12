@@ -1,0 +1,15 @@
+﻿  stdafx.cpp
+  Camera.cpp
+  GameFramework.cpp
+  GameObject.cpp
+  LabProject.cpp
+  Mesh.cpp
+  Player.cpp
+  Rail.cpp
+  RailObject.cpp
+  Scene.cpp
+  Timer.cpp
+  코드를 생성하고 있습니다.
+  All 270 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  코드를 생성했습니다.
+  LabProject.vcxproj -> C:\Users\crow4\Desktop\2015180030_LeeDongGyu\DirectX12\DirextX12Project01\x64\Release\LabProject.exe
