@@ -130,7 +130,7 @@ LRESULT CALLBACK CGameFramework::OnProcessingWindowMessage(HWND hWnd, UINT nMess
 
 void CGameFramework::BuildObjects()
 {
-	CCubeMesh *pCubeMesh = new CCubeMesh(4.0f, 4.0f, 4.0f);
+	CCubeMesh *pCubeMesh = new CCubeMesh(4.0f, 3.0f, 5.0f);
 	m_pPlayer = new CTerrainPlayer();
 	m_pPlayer->SetPosition(0.0f, 0.0f, 0.0f);
 	m_pPlayer->SetMesh(pCubeMesh);

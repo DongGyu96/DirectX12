@@ -4,6 +4,7 @@
 
 class RailObject : public CGameObject
 {
+
 	bool pass = false;
 public:
 	RailObject();

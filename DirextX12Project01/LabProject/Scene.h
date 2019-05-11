@@ -17,6 +17,7 @@ public:
 
 	float setangleY = 0.f;
 	float setangleX = 0.f;
+	float setangleZ = 0.f;
 
 	virtual void BuildObjects();
 	virtual void ReleaseObjects();

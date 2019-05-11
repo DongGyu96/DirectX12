@@ -67,12 +67,12 @@ void CRunAwayScene::BuildObjects()
 
 	//CTerrainMesh *pTerrainMesh = NULL;
 
-	CCubeMesh *pObjectCubeMesh = new CCubeMesh(4.0f, 4.0f, 4.0f);
+	CCubeMesh *pObjectCubeMesh = new CCubeMesh(4.0f, 3.0f, 5.0f);
 	// pObjectCubeMesh->SetOOBB(XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT3(2.0f, 2.0f, 2.0f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
 
-	Rail *rail = new Rail(5.0f, 0.0f, 11.0f, 5);
+	Rail *rail = new Rail(5.0f, 0.0f, 10.0f);
 	// rail->SetOOBB(XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT3(2.5f, 0.5f, 5.0f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
-	m_nObjects = 50;
+	m_nObjects = 70;
 	buildcount = 10;
 	prevbuildcount = buildcount - 1;
 	m_ppObjects = new CGameObject*[m_nObjects];
@@ -135,10 +135,11 @@ void CRunAwayScene::ReleaseObjects()
 void CRunAwayScene::Animate(float fElapsedTime)
 {
 	CScene::Animate(fElapsedTime);
-	if (Vector3::Distance(m_ppObjects[(m_pPlayer->railcount) % m_nObjects]->GetEnd(), m_pPlayer->GetPosition()) <= 0.4)
+	if (Vector3::Distance(m_ppObjects[(m_pPlayer->railcount) % m_nObjects]->GetEnd(), m_pPlayer->GetPosition()) <= 0.35)
 	{
 		float yangle = m_ppObjects[m_pPlayer->railcount]->yangle;
 		float xangle = m_ppObjects[m_pPlayer->railcount]->xangle;
+		float zangle = m_ppObjects[m_pPlayer->railcount]->zangle;
 
 		m_ppObjects[m_pPlayer->railcount]->PassOn();
 		m_ppObjects[m_pPlayer->railcount]->SetColor(RGB(0, 0, 0));
@@ -149,17 +150,23 @@ void CRunAwayScene::Animate(float fElapsedTime)
 
 		if (m_ppObjects[m_pPlayer->railcount]->GetPass())
 		{
-			setangleX = 0.0f;
-			setangleY = 0.0f;
-			BuildRail(setangleX, setangleY, 0.0f);
+			BuildRail(0.f, 0.f, 0.f);
 		}
 
-		yangle -= m_ppObjects[m_pPlayer->railcount]->yangle;
-		m_pPlayer->yangle += -yangle;
+		yangle += m_ppObjects[m_pPlayer->railcount]->yangle;
+		xangle += m_ppObjects[m_pPlayer->railcount]->xangle;
+		zangle += m_ppObjects[m_pPlayer->railcount]->zangle;
 
-		m_pPlayer->Rotate(0.f, -yangle, 0.f);
+		m_pPlayer->ClearRotate();
+
+		m_pPlayer->yangle = m_ppObjects[m_pPlayer->railcount]->yangle;
+		m_pPlayer->xangle = m_ppObjects[m_pPlayer->railcount]->xangle;
+		m_pPlayer->zangle = m_ppObjects[m_pPlayer->railcount]->zangle;
+
+		m_pPlayer->Rotate(-m_pPlayer->xangle, m_pPlayer->yangle, m_pPlayer->zangle);
 
 		m_pPlayer->SetPosition(m_ppObjects[m_pPlayer->railcount]->GetStart());
+
 
 	}
 
@@ -181,70 +188,99 @@ void CRunAwayScene::OnProcessingKeyboardMessage(HWND hWnd, UINT nMessageID, WPAR
 		switch (wParam)
 		{
 		case VK_RIGHT:
-			setangleY = 22.5f;
-			BuildRail(setangleX, setangleY, 0.0f);
-			setangleY = 0.f;
+			BuildRail(0.f, 15.f, 0.0f);
 			break;
 		case VK_LEFT:
-			setangleY = -22.5f;
-			BuildRail(setangleX, setangleY, 0.0f);
-			setangleY = 0.f;
+			BuildRail(0.f, -15.f, 0.0f);
 			break;
 		case VK_UP:
-			setangleY = 0.f;
-			setangleX = 22.5f;
-			BuildRail(setangleX, setangleY, 0.0f);
-			setangleX = 0.f;
+			BuildRail(15.f, 0.f, 0.0f);
 			break;
 		case VK_DOWN:
-			setangleY = 0.f;
-			setangleX = -22.5f;
-			BuildRail(setangleX, setangleY, 0.0f);
-			setangleX = 0.f;
+			BuildRail(-15.f, 0.f, 0.0f);
 			break;
 		case VK_SPACE:
-			BuildRail(setangleX, setangleY, 0.0f);
+			BuildRail(0.f, 0.f, 0.0f);
+			break;
+		case 'Z':
+			BuildRail(0.f, 0.f, 22.5f);
+			break;
+		case 'C':
+			BuildRail(0.f, 0.f, -22.5f);
 			break;
 		case NUM_ONE:
-			if (setangleX < 0.0f)
-				setangleX = 0.0f;
-
-			if (setangleX + 5.f < 45.f) {
-				setangleX += 5.f;
-				cout << "X : " << setangleX << "\t Y : " << setangleY << endl;
-			}
+			BuildRail(15.f, -15.f, 0.0f);
 			break;
 		case NUM_TWO:
-			if (setangleX > 0.0f)
-				setangleX = 0.0f;
-
-			if (setangleX - 5.f > -45.f) {
-				setangleX -= 5.f;
-				cout << "X : " << setangleX << "\t Y : " << setangleY << endl;
-			}
+			BuildRail(15.f, 15.f, 0.0f);
 			break;
 		case NUM_THREE:
-			if (setangleY < 0.0f)
-				setangleY = 0.0f;
-
-			if (setangleY + 5.f < 65.f) {
-				setangleY += 5.f;
-				cout << "X : " << setangleX << "\t Y : " << setangleY << endl;
-			}
+			BuildRail(-15.f, -15.f, 0.0f);
 			break;
 		case NUM_FOUR:
-			if (setangleY > 0.0f)
-				setangleY = 0.0f;
-
-			if (setangleY - 5.f > -65.f) {
-				setangleY -= 5.f;
-				cout << "X : " << setangleX << "\t Y : " << setangleY << endl;
-			}
+			BuildRail(-15.f, 15.f, 0.0f);
+			break;
+		case NUM_FIVE:
+			BuildRail(-45.f, 0.f, 0.0f);
+			break;
+		case NUM_SIX:
+			BuildRail(-45.f, 0.f, 0.0f);
+			break;
+		case NUM_SEVEN:
+			BuildRail(0.f, -45.f, 0.0f);
+			break;
+		case NUM_EIGHT:
+			BuildRail(0.f, 45.f, 0.0f);
 			break;
 		case NUM_ZERO:
-			setangleX = 0.f;
-			setangleY = 0.f;
-			cout << "X : " << setangleX << "\t Y : " << setangleY << endl;
+			m_ppObjects[buildcount - 1]->xangle = 0;
+			m_ppObjects[buildcount - 1]->yangle = 0;
+			m_ppObjects[buildcount - 1]->zangle = 0;
+			BuildRail(0.f, 0.f, 0.f);
+			break;
+		case 'W':
+			if (setangleX + 10.f <= 90.f)
+				setangleX += 10.f;
+			cout << "X : " << setangleX << endl;
+			cout << "Y : " << setangleY << endl;
+			cout << "Z : " << setangleZ << endl << endl;
+			break;
+		case 'S':
+			if (setangleX - 10.f >= 0.f)
+				setangleX -= 10.f;
+			cout << "X : " << setangleX << endl;
+			cout << "Y : " << setangleY << endl;
+			cout << "Z : " << setangleZ << endl << endl;
+			break;
+		case 'D':
+			if (setangleY + 10.f <= 90.f)
+				setangleY += 10.f;
+			cout << "X : " << setangleX << endl;
+			cout << "Y : " << setangleY << endl;
+			cout << "Z : " << setangleZ << endl << endl;
+			break;
+		case 'A':
+			if (setangleY - 10.f >= 0.f)
+				setangleY -= 10.f;
+			cout << "X : " << setangleX << endl;
+			cout << "Y : " << setangleY << endl;
+			cout << "Z : " << setangleZ << endl << endl;
+			break;
+		case 'E':
+			if (setangleZ + 10.f <= 90.f)
+				setangleZ += 10.f;
+			cout << "X : " << setangleX << endl;
+			cout << "Y : " << setangleY << endl;
+			cout << "Z : " << setangleZ << endl << endl;
+			break;
+		case 'Q':
+			if (setangleZ - 10.f >= 0.f)
+				setangleZ -= 10.f;
+			cout << "X : " << setangleX << endl;
+			cout << "Y : " << setangleY << endl;
+			cout << "Z : " << setangleZ << endl << endl;
+		case 'X':
+			BuildRail(setangleX, setangleY, setangleZ);
 			break;
 		default:
 			break;
@@ -267,20 +303,37 @@ void CRunAwayScene::BuildRail(float xangle, float yangle, float zangle)
 
 		m_ppObjects[buildcount]->yangle = m_ppObjects[prevbuildcount]->yangle + yangle;
 		m_ppObjects[buildcount]->xangle = m_ppObjects[prevbuildcount]->xangle + xangle;
+		m_ppObjects[buildcount]->zangle = m_ppObjects[prevbuildcount]->zangle + zangle;
+
+		if (m_ppObjects[buildcount]->yangle > 360.f)
+			m_ppObjects[buildcount]->yangle -= 360.f;
+		else if (m_ppObjects[buildcount]->yangle < -360.f)
+			m_ppObjects[buildcount]->yangle += 360.f;
+
+		if (m_ppObjects[buildcount]->xangle > 360.f)
+			m_ppObjects[buildcount]->xangle -= 360.f;
+		else if (m_ppObjects[buildcount]->xangle < -360.f)
+			m_ppObjects[buildcount]->xangle += 360.f;
+
+		if (m_ppObjects[buildcount]->zangle > 360.f)
+			m_ppObjects[buildcount]->zangle -= 360.f;
+		else if (m_ppObjects[buildcount]->zangle < -360.f)
+			m_ppObjects[buildcount]->zangle += 360.f;
+
 
 		float xradian = Vector3::ToRadian(m_ppObjects[buildcount]->xangle);
 		float yradian = Vector3::ToRadian(m_ppObjects[buildcount]->yangle);
-		float zradian = Vector3::ToRadian(zangle);
+		float zradian = Vector3::ToRadian(m_ppObjects[buildcount]->zangle);
 
 		//XMFLOAT3 direction = XMFLOAT3(sin(yradian), sin(xradian), cos(yradian));
 
 		XMFLOAT4X4 tempMatrix;
 
-		tempMatrix = Matrix4x4::RotationYawPitchRoll(-m_ppObjects[buildcount]->xangle, m_ppObjects[buildcount]->yangle, zangle);
+		tempMatrix = Matrix4x4::RotationYawPitchRoll(-m_ppObjects[buildcount]->xangle, m_ppObjects[buildcount]->yangle, m_ppObjects[buildcount]->zangle);
 
 		XMFLOAT3 direction = Vector3::Normalize(Vector3::TransformNormal(XMFLOAT3(0.0f, 0.0f, 1.0f), tempMatrix));
 
-		m_ppObjects[buildcount]->Rotate(-m_ppObjects[buildcount]->xangle, m_ppObjects[buildcount]->yangle, 0.0f);
+		m_ppObjects[buildcount]->Rotate(-m_ppObjects[buildcount]->xangle, m_ppObjects[buildcount]->yangle, m_ppObjects[buildcount]->zangle);
 
 
 		temp = Vector3::Add(temp, Vector3::ScalarProduct(direction, 5.f));

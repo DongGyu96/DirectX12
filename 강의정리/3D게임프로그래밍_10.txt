@@ -1,0 +1,25 @@
+이름의 끝 A가 붙어있다면 16바이트 정렬을 컴파일에게 보장하는 구조체
+그러므로 사용을 권장함
+
+클래스/구조체의 멤버는 XMFLOAT3, XMFLOAT4, XMFLOAT4X4를 사용할 것
+1. 클래스/구조체의 멤버를 XMVECTOR, XMMATRIX 지역변수로 복사(load)
+	XMVECOR XMLoadFloat3(const XMFLOAT3 *pSource)
+2. XMVECTOR, XMMATRIX 지역 변수를 사용하여 계산(SIMD 연산)
+3. XMVECTOR, XMMATRIX 지역 변수를 구조체의 멤버로 복사(Store)
+	void XMStoreFloat3([out]XMFLOAT3 *pDestination, XMVECTOR v)
+
+함수 뒤에 Est가 붙어있는 경우에는 좀더 정밀하게 계산하는 함수
+
+AABB 바운딩박스의 단점 :	축과 항상 평행해야해서 객체가 회전할 경우
+			바운딩 박스의 크기가 바뀌어야 한다. + 부정확
+		 장점 :	계산이 쉬워 빠른속도
+
+
+바운딩 오리엔티드 박스
+OOBB 바운딩박스의 단점 :	모든 점들을 돌면서 좌표의 최대와 최소값을 찾음
+			알고리즘이 복잡, 시간이 많이소모
+		 장점 :	회전 정보를 저장(쿼터니언)했기 때문에 바운딩 박스
+			가 회전할때마다 다시 그려야하는 필요가 없음 + 정확
+
+바운딩 스피어 : 중점과 반지름 가장 심플하고 빠름
+바운딩 프러스텀 : 원점에서 근평면과 원평면, 즉 절두체의 모양 ( 카메라 )

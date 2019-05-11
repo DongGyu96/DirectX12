@@ -14,7 +14,8 @@ public:
 
 public:
 	bool						m_bActive = true;
-	
+
+
 	CMesh						*m_pMesh = NULL;
     XMFLOAT4X4					m_xmf4x4World;    
 
@@ -32,11 +33,13 @@ public:
 	XMFLOAT3 end;
 	float yangle = 0.f;
 	float xangle = 0.f;
+	float zangle = 0.f;
 
 	XMFLOAT3					m_xmf3RotationAxis;
 	float						m_fRotationSpeed = 0.0f;
 
 public:
+	void ClearMatrix();
 	void SetMatrix();
 	void SetMatrix(XMFLOAT4X4 matrix) { m_xmf4x4World = matrix; }
 	XMFLOAT4X4 GetMatrix() { return m_xmf4x4World; }
@@ -73,7 +76,7 @@ public:
 	XMFLOAT3 GetMovingDirection() { return m_xmf3MovingDirection; }
 
 	virtual void Animate(float fElapsedTime);
-	virtual void OnPreRender() { }
+	virtual void OnPreRender() {}
 	virtual void Render(HDC hDCFrameBuffer, CCamera *pCamera);
 	virtual void PassOn() {}
 	virtual void PassOff() {}

@@ -23,6 +23,14 @@ CPlayer::~CPlayer()
 {
 }
 
+void CPlayer::ClearRotate()
+{
+	m_xmf3Position = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	m_xmf3Right = XMFLOAT3(1.0f, 0.0f, 0.0f);
+	m_xmf3Up = XMFLOAT3(0.0f, 1.0f, 0.0f);
+	m_xmf3Look = XMFLOAT3(0.0f, 0.0f, 1.0f);
+}
+
 void CPlayer::SetPosition(float x, float y, float z)
 {
 	m_xmf3Position = XMFLOAT3(x, y, z);
@@ -74,17 +82,17 @@ void CPlayer::Move(float x, float y, float z)
 void CPlayer::Rotate(float fPitch, float fYaw, float fRoll)
 {
 	m_pCamera->Rotate(fPitch, fYaw, fRoll);
-	if (fPitch != 0.0f)
-	{
-		XMMATRIX mtxRotate = XMMatrixRotationAxis(XMLoadFloat3(&m_xmf3Right), XMConvertToRadians(fPitch));
-		m_xmf3Look = Vector3::TransformNormal(m_xmf3Look, mtxRotate);
-		m_xmf3Up = Vector3::TransformNormal(m_xmf3Up, mtxRotate);
-	}
 	if (fYaw != 0.0f)
 	{
 		XMMATRIX mtxRotate = XMMatrixRotationAxis(XMLoadFloat3(&m_xmf3Up), XMConvertToRadians(fYaw));
 		m_xmf3Look = Vector3::TransformNormal(m_xmf3Look, mtxRotate);
 		m_xmf3Right = Vector3::TransformNormal(m_xmf3Right, mtxRotate);
+	}
+	if (fPitch != 0.0f)
+	{
+		XMMATRIX mtxRotate = XMMatrixRotationAxis(XMLoadFloat3(&m_xmf3Right), XMConvertToRadians(fPitch));
+		m_xmf3Look = Vector3::TransformNormal(m_xmf3Look, mtxRotate);
+		m_xmf3Up = Vector3::TransformNormal(m_xmf3Up, mtxRotate);
 	}
 	if (fRoll != 0.0f)
 	{
@@ -96,6 +104,9 @@ void CPlayer::Rotate(float fPitch, float fYaw, float fRoll)
 	m_xmf3Look = Vector3::Normalize(m_xmf3Look);
 	m_xmf3Right = Vector3::Normalize(Vector3::CrossProduct(m_xmf3Up, m_xmf3Look));
 	m_xmf3Up = Vector3::Normalize(Vector3::CrossProduct(m_xmf3Look, m_xmf3Right));
+
+	//XMFLOAT4X4 mtxRotate = Matrix4x4::RotationAxis(xmf3RotationAxis, fAngle);
+	//m_xmf4x4World = Matrix4x4::Multiply(mtxRotate, m_xmf4x4World);
 }
 
 void CPlayer::Update(float fTimeElapsed)
@@ -116,10 +127,21 @@ void CPlayer::Update(float fTimeElapsed)
 
 void CPlayer::OnPreRender()
 {
-	m_xmf4x4World._11 = m_xmf3Right.x; m_xmf4x4World._12 = m_xmf3Right.y; m_xmf4x4World._13 = m_xmf3Right.z;
-	m_xmf4x4World._21 = m_xmf3Up.x; m_xmf4x4World._22 = m_xmf3Up.y; m_xmf4x4World._23 = m_xmf3Up.z;
-	m_xmf4x4World._31 = m_xmf3Look.x; m_xmf4x4World._32 = m_xmf3Look.y; m_xmf4x4World._33 = m_xmf3Look.z;
-	m_xmf4x4World._41 = m_xmf3Position.x; m_xmf4x4World._42 = m_xmf3Position.y; m_xmf4x4World._43 = m_xmf3Position.z;
+	m_xmf4x4World._11 = m_xmf3Right.x;
+	m_xmf4x4World._12 = m_xmf3Right.y;
+	m_xmf4x4World._13 = m_xmf3Right.z;
+
+	m_xmf4x4World._21 = m_xmf3Up.x;
+	m_xmf4x4World._22 = m_xmf3Up.y;
+	m_xmf4x4World._23 = m_xmf3Up.z;
+
+	m_xmf4x4World._31 = m_xmf3Look.x;
+	m_xmf4x4World._32 = m_xmf3Look.y;
+	m_xmf4x4World._33 = m_xmf3Look.z;
+
+	m_xmf4x4World._41 = m_xmf3Position.x; 
+	m_xmf4x4World._42 = m_xmf3Position.y; 
+	m_xmf4x4World._43 = m_xmf3Position.z;
 }
 
 void CPlayer::Render(HDC hDCFrameBuffer, CCamera *pCamera)

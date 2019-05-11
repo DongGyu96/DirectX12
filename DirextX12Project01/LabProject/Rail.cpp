@@ -2,7 +2,7 @@
 #include "Rail.h"
 
 
-Rail::Rail(float width, float height, float depth, int count) : CMesh(count)
+Rail::Rail(float width, float height, float depth) : CMesh(9)
 {
 	float fHalfWidth = width * 0.5f;
 	float fHalfHeight = height * 0.5f;
@@ -32,6 +32,26 @@ Rail::Rail(float width, float height, float depth, int count) : CMesh(count)
 	railline3->SetVertex(0, CVertex(-fHalfWidth, height, +fHalfDepth));
 	railline3->SetVertex(1, CVertex(+fHalfWidth, height, +fHalfDepth));
 	SetPolygon(4, railline3);
+
+	CPolygon *leftline1 = new CPolygon(2);
+	leftline1->SetVertex(0, CVertex(-fHalfWidth, height + 1.5f, -fHalfDepth));
+	leftline1->SetVertex(1, CVertex(-fHalfWidth, height + 1.5f, +fHalfDepth));
+	SetPolygon(5, leftline1);
+
+	CPolygon *rightline1 = new CPolygon(2);
+	rightline1->SetVertex(0, CVertex(+fHalfWidth, height + 1.5f, -fHalfDepth));
+	rightline1->SetVertex(1, CVertex(+fHalfWidth, height + 1.5f, +fHalfDepth));
+	SetPolygon(6, rightline1);
+
+	CPolygon *railline4 = new CPolygon(2);
+	railline4->SetVertex(0, CVertex(-fHalfWidth + 0.5f, height, -fHalfDepth + 2.5f));
+	railline4->SetVertex(1, CVertex(+fHalfWidth - 0.5f, height, -fHalfDepth + 2.5f));
+	SetPolygon(7, railline4);
+
+	CPolygon *railline5 = new CPolygon(2);
+	railline5->SetVertex(0, CVertex(-fHalfWidth + 0.5f, height, fHalfDepth - 2.5f));
+	railline5->SetVertex(1, CVertex(+fHalfWidth - 0.5f, height, fHalfDepth - 2.5f));
+	SetPolygon(8, railline5);
 }
 
 

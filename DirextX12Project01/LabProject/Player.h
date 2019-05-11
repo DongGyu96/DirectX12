@@ -37,6 +37,8 @@ public:
 	void SetCameraOffset(XMFLOAT3& xmf3CameraOffset);
 	void Update(float fTimeElapsed=0.016f);
 
+	void ClearRotate();
+
 	virtual void OnPreRender();
 	virtual void Render(HDC hDCFrameBuffer, CCamera *pCamera);
 };
